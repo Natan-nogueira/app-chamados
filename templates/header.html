@@ -1,0 +1,26 @@
+<head>
+    <title>Chamados</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}"> 
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav justify-content-start">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index')}}">Chamados Abertos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('atendimento')}}">Chamados Em Atendimento</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('fechado')}}">Chamados Finalizados</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="http://bi.gminuano.com.br:8182/#/signin" target="_blank">BI Painel Chamados</a>
+            </li>
+          </ul>
+          <div class="d-flex justify-content-end">
+            <a href="{{ url_for('logout')}}" class="nav-item">Desconectar</a>
+          </div>
+    </nav>

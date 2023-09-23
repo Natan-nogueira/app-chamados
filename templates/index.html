@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    {% include "header.html" %}
+    <div class="container">
+        <h1 class="my-4">Lista de Chamados</h1>
+         <button class="btn btn-primary float-right mb-2" data-toggle="modal" data-target="#myModal">Adicionar Chamado</button>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Descrição</th>
+                    <th>Abertura</th>
+                    <th>Status</th>
+                    <th>Prioridade</th>
+                    <th>Categoria</th>
+                    <th>Solicitante</th>
+                    <th>Setor</th>
+                    <th>Ações</th>
+                    <!-- Adicione mais colunas conforme necessário -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for chamado in chamados %}
+                    <tr>
+                        <td>{{ chamado[1] }}</td>
+                        <td>{{ chamado[2] }}</td>
+                        <td>{{chamado[3].strftime('%d/%m/%Y %H:%M:%S')}}</td>
+                        <td>{{ chamado[8] }}</td>
+                        <td>{{ chamado[5] }}</td>
+                        <td>{{ chamado[6] }}</td>
+                        <td>{{ chamado[9] }}</td>
+                        <td>{{ chamado[10] }}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Ações
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item" href="/chamado?id={{ chamado[0] }}">Detalhar <i><i class="fa-solid fa-eye"></i></i></a>
+                                  <a href="/update/{{ chamado[0] }}" class="dropdown-item edit" data-toggle="modal" data-target="#modaledit{{ chamado[0] }}">Editar <i class="fa-solid fa-pen-to-square"></i></i></a>
+                                  <a href="/delete/{{ chamado[0] }}" class="dropdown-item delete" onclick="return confirm('Você tem certeza que deseja deletar? registros serão perdidos!')">Deletar <i class="fa-solid fa-trash"></i></a>   
+                               </div>
+                              </div>  
+                            </td>
+                    </tr>
+                    <!-- Modal de Edição -->
+                    <div id="modaledit{{chamado[0]}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-primary" style="align-content: center;">Editando o novo chamado</h5>    
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ url_for('editar_chamado')}}" method="POST">
+                                        <input type="hidden" name="id_chamado" value="{{chamado[0]}}">
+                                        <div class="form-group">
+                                            <label for="titulo">Título:</label>
+                                        <input type="text" name="titulo" class="form-control" placeholder="Digite o Título Do Chamado" value="{{chamado[1]}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="descricao">Descrição:</label>
+                                            <textarea name="descricao" class="form-control" placeholder="Insira a descrição do chamado">{{chamado[2]}}</textarea>
+                                        </div>
+                                        {%if session['funcao'] == 'admin' %}
+                                            <div class="form-group">
+                                                <label for="status">Status</label>
+                                                <select class="form-control" name="status">
+                                                    <option value="Aberto">Aberto</option>
+                                                    <option value="Em Desenvolvimento">Em Andamento</option>
+                                                    <option value="Fechado">Fechado</option>
+                                                </select>
+                                            </div>        
+                                        {% else %}
+                                            <div class="form-group">
+                                                <label for="status">Status</label>
+                                                <select class="form-control" name="status">
+                                                    <option value="Aberto" selected disabled>Aberto</option>
+                                                </select>
+                                            </div>
+                                        {% endif %}    
+                                        <button type="submit" class="btn btn-primary mb-2">Salvar</button>
+                                    </form> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    {% endfor %} 
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal de Inserção -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" style="align-content: center;">Adicione o novo chamado</h5>    
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('criar_chamado')}}" method="POST">
+                        <div class="form-group">
+                            <label for="titulo">Título:</label>
+                        <input type="text" name="titulo" class="form-control" id="exampleFormControlInput1" placeholder="Insira o título do chamado" value=""required>
+                        </div>
+                        <div class="form-group">
+                            <label for="descricao">Descrição:</label>
+                            <!--<textarea name="descricao" required></textarea><br>-->
+                            <textarea name="descricao" class="form-control" id="exampleFormControlInput1" placeholder="Insira a descrição do chamado"required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="solucao">Solução Esperada:</label>
+                            <!--<textarea name="descricao" required></textarea><br>-->
+                            <textarea name="solucao" class="form-control" id="exampleFormControlInput1" placeholder="Insira a solução esperada"required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="prioridade">Prioridade da Solicitação:</label>
+                            <select class="form-control" name="prioridade">
+                                <option value="Normal">Normal</option>
+                                <option value="A'lta">Alta</option>
+                                <option value="Crítica">Crítica</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoria">Tipo da Solicitação:</label>
+                            <select class="form-control" name="categoria">
+                                <option value="Manutenção">Manutenção</option>
+                                <option value="Melhoria">Melhoria</option>
+                                <option value="Novo Projeto">Novo Projeto</option>
+                            </select>
+                        </div>
+                          <button type="submit" class="btn btn-primary mb-2">Salvar</button>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <img src="..." class="rounded mr-2" alt="...">
+          <strong class="mr-auto">Bootstrap</strong>
+          <small>11 mins ago</small>
+          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body">
+          Hello, world! This is a toast message.
+        </div>
+      </div>
+    <footer>   
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </footer>
+</body>
+</html>

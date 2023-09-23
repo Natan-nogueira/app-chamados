@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<!--teste-->
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!--Aqui liga o arquivo css da pasta static para o HTML--> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}"> 
+    <style>
+        body {
+            display:flex; flex-direction:column; 
+            justify-content:center;
+            min-height:80vh;
+            }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-md-4 justify-content-center col-sm-12">
+                <div class="content p-4">
+                    <h2>Login chamados Bi</h2>
+                    <form method="POST" action="{{ url_for('login') }}">
+                        <div class="form-group">
+                            <label for="username">Usuário:</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Senha:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="d- justify-content-center">
+                                <button type="submit" class="btn btn-primary text-align-center login_btn">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div>
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000" style="position: absolute; top: 0; right: 0;">
+        <div class="toast-header">
+          <img src="..." class="rounded mr-2" alt="...">
+          <strong class="mr-auto">Erro!</strong>
+          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body">
+          {{error_message}}
+        </div>
+      </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    {% if error_message is defined%}
+    <script>    
+            Swal.fire({
+                text: '{{error_message}}',
+                customClass: {
+                    container: 'position-absolute'
+                },
+                toast: true,
+                position: 'top-right',
+                icon: 'error',
+                title: 'Erro!',
+                showConfirmButton:false,
+                timer:1500
+                })
+    </script>
+    {% endif %}
+</body>
+</html>

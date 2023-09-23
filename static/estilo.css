@@ -1,0 +1,86 @@
+/*Fonte Inter*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
+body{
+    font-family: 'Inter', sans-serif;
+    background-color: #f1f1f1f1;
+}
+.content{
+    text-align: center;
+    background: white;
+    border: 1px solid;
+    border-radius: 0.5rem;
+    width: 500px;
+}
+
+/* Estilo básico da navbar */
+.navbar {
+    background-color: #333; /* Cor de fundo da navbar */
+    color: #fff; /* Cor do texto na navbar */
+    padding: 10px 0; /* Espaçamento interno na navbar (10px no topo/baixo, 0 nas laterais) */
+    position: top; /* Fixa a navbar no topo da página */
+    width: 100%; /* Largura total da página */
+    top: 0; /* Alinha a navbar no topo */
+    left: 0; /* Alinha a navbar à esquerda */
+    z-index: 1000; /* Camada z para garantir que a navbar esteja acima de outros elementos */
+}
+
+/* Estilo dos itens da navbar */
+.navbar a{
+    color: white;
+}
+.navbar a:hover{
+    text-decoration: underline;
+    zoom: 1.01;
+}
+.navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center; /* Centraliza os itens horizontalmente */
+}
+
+.navbar ul li {
+    display: inline;
+    margin: 0 20px; /* Espaçamento entre os itens da navbar */
+}
+
+.navbar ul li:last-child {
+    margin-right: 0; /* Remove o espaçamento à direita do último item */
+}
+
+.edit:hover{
+    color: #ffc107;
+    text-decoration: underline;
+}
+
+.delete:hover {
+    color: #dc3545;
+    text-decoration: underline;
+}
+table {
+    background: white;
+    border: 0;
+}
+
+.main{
+    background: white;
+    border-radius: 0.25rem;
+    border: 1px solid;
+}
+.error{
+    background-color: #dc3545;
+    color: white;
+}
+.btn:hover{
+    background-color: #f1f1f1;
+    color: #333;
+    transition: 0.3;
+}
+.pagination{
+    text-align: center;
+    padding: 10px;
+}
+.active{
+    background-color: #007bff;
+    color: white;
+}
